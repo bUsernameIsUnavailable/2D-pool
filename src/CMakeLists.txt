@@ -3,7 +3,7 @@ project(2D-pool)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(SOURCE_FILES main.cpp engine.cpp)
+set(SOURCE_FILES main.cpp engine.cpp windowConfig.cpp)
 
 include_directories(${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/include)
 

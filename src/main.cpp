@@ -1,16 +1,18 @@
 #include "../include/engine.h"
+#include "../include/windowConfig.h"
 
 #include <GL/freeglut.h>
 
 
 int main(int argc, char** const argv)
 {
-    base::engine::getInstance().initialise(&argc, argv)
-        .setDisplayMode(GLUT_SINGLE | GLUT_RGB)
-        .setWindowPosition(100, 100)
-        .setWindowSize(800, 600)
-        .createWindow("2D Pool")
-        .start();
+    base::engine::getInstance().start((new base::windowConfig())
+        ->setArguments(argc, argv)
+        ->setDisplayMode(GLUT_SINGLE | GLUT_RGB)
+        ->setPosition(100, 100)
+        ->setSize(800, 600)
+        ->setTitle("2D Pool")
+    );
 
     return 0;
 }
