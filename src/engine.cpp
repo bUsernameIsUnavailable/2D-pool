@@ -1,16 +1,22 @@
 #include "../include/engine.h"
-#include "../include/windowConfig.h"
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
 
 namespace base {
-    engine::~engine() {
-        delete config;
+    const entityManager* engine::entityManager;
+    const componentManager* engine::componentManager;
+    const systemManager* engine::systemManager;
+
+    void engine::initialiseManagers() {
+        entityManager = &entityManager::getInstance();
+        componentManager = &componentManager::getInstance();
+        systemManager = &systemManager::getInstance();
     }
 
     void engine::start(const windowConfig* const window) {
+        initialiseManagers();
         std::printf("Engine started!\n");
 
         config = window;

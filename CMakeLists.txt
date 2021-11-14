@@ -34,4 +34,8 @@ execute_process(
         create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/shaders ${CMAKE_CURRENT_BINARY_DIR}/shaders
 )
 
-add_subdirectory(src)
+file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

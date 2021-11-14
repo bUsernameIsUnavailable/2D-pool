@@ -1,5 +1,4 @@
 #include "../include/engine.h"
-#include "../include/windowConfig.h"
 
 #include <GL/freeglut.h>
 
