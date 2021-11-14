@@ -20,7 +20,7 @@ if (NOT GLUT_FOUND)
     message(ERROR " GLUT not found!")
 endif(NOT GLUT_FOUND)
 
-set(glm_DIR "glm/cmake/glm")
+set(glm_DIR "lib/glm/cmake/glm")
 find_package(glm REQUIRED)
 include_directories(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_LIBRARY_DIRS})
@@ -29,13 +29,20 @@ if (NOT glm_FOUND)
     message(ERROR " glm not found!")
 endif(NOT glm_FOUND)
 
+find_library(SOIL_LIB SOIL.lib ${PROJECT_SOURCE_DIR}/lib)
+
 execute_process(
         COMMAND ${CMAKE_COMMAND} -E
         create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/shaders ${CMAKE_CURRENT_BINARY_DIR}/shaders
+)
+
+execute_process(
+        COMMAND ${CMAKE_COMMAND} -E
+        create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/textures ${CMAKE_CURRENT_BINARY_DIR}/textures
 )
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${SOIL_LIB})
