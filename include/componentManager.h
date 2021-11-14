@@ -1,8 +1,8 @@
 #ifndef INC_2D_POOL_COMPONENTMANAGER_H
 #define INC_2D_POOL_COMPONENTMANAGER_H
 
-#include "ecsTypes.h"
-#include "singleton.h"
+#include <ecsTypes.h>
+#include <singleton.h>
 
 #include <array>
 #include <cassert>
@@ -13,7 +13,6 @@
 namespace base {
     class componentArrayBase {
     public:
-        virtual ~componentArrayBase() = 0;
         virtual void onEntityDestroyed(const Entity&) = 0;
     };
 
@@ -38,11 +37,11 @@ namespace base {
         void removeData(const Entity& entity) {
             assert(mapEntityToIndex.find(entity) != mapEntityToIndex.end() && "Entity doesn't own component!");
 
-            constexpr size_t removedIndex = mapEntityToIndex[entity];
-            constexpr size_t lastIndex = size - 1u;
+            const size_t removedIndex = mapEntityToIndex[entity];
+            const size_t lastIndex = size - 1u;
             components[removedIndex] = components[lastIndex];
 
-            constexpr Entity lastElement = mapIndexToEntity[lastIndex];
+            const Entity lastElement = mapIndexToEntity[lastIndex];
             mapEntityToIndex[lastElement] = removedIndex;
             mapIndexToEntity[removedIndex] = lastElement;
 
@@ -66,12 +65,12 @@ namespace base {
     };
 
     class componentManager : public utils::singleton<componentManager> {
-        static ComponentType nextComponentType;
-        static std::unordered_map<const char*, ComponentType> componentTypes;
-        static std::unordered_map<const char*, std::shared_ptr<componentArrayBase>> componentArrays;
+        ComponentType nextComponentType;
+        std::unordered_map<const char*, ComponentType> componentTypes;
+        std::unordered_map<const char*, std::shared_ptr<componentArrayBase>> componentArrays;
 
         template<typename T>
-        static std::shared_ptr<componentArray<T>> getComponentArray() {
+        std::shared_ptr<componentArray<T>> getComponentArray() {
             const char* const typeName = typeid(T).name();
             assert(componentTypes.find(typeName) != componentTypes.end() && "Component is not registered!");
 
@@ -80,7 +79,7 @@ namespace base {
 
     public:
         template<typename T>
-        static void registerComponent() {
+        void registerComponent() {
             const char* const typeName = typeid(T).name();
             assert(componentTypes.find(typeName) == componentTypes.end() && "Component is already registered!");
 
@@ -90,7 +89,7 @@ namespace base {
         }
 
         template<typename T>
-        static const ComponentType& getComponentType() {
+        const ComponentType& getComponentType() {
             const char* const typeName = typeid(T).name();
             assert(componentTypes.find(typeName) != componentTypes.end() && "Component is not registered!");
 
@@ -98,21 +97,21 @@ namespace base {
         }
 
         template<typename T>
-        inline static void addComponent(const Entity& entity, const T& component) {
+        inline void addComponent(const Entity& entity, const T& component) {
             getComponentArray<T>()->insertData(entity, component);
         }
 
         template<typename T>
-        inline static void removeComponent(const Entity& entity) {
+        inline void removeComponent(const Entity& entity) {
             getComponentArray<T>()->removeData(entity);
         }
 
         template<typename T>
-        inline static const T& getComponent(const Entity& entity) {
-            getComponentArray<T>()->getData(entity);
+        inline const T& getComponent(const Entity& entity) {
+            return getComponentArray<T>()->getData(entity);
         }
 
-        static void onEntityDestroyed(const Entity& entity) {
+        void onEntityDestroyed(const Entity& entity) {
             for (const auto& pair : componentArrays) {
                 pair.second->onEntityDestroyed(entity);
             }

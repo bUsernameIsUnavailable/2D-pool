@@ -1,25 +1,25 @@
-#include "engine.h"
+#include <engine.h>
+#include <renderSystem.h>
 
 
 namespace base {
-    const entityManager* engine::entityManager;
-    const componentManager* engine::componentManager;
-    const systemManager* engine::systemManager;
-
-    graphicsManager* engine::graphicsManager;
+    entityManager* engine::entityManager;
+    componentManager* engine::componentManager;
+    systemManager* engine::systemManager;
 
 
     void engine::getManagers() {
-        graphicsManager = &graphicsManager::getInstance();
         entityManager = &entityManager::getInstance();
         componentManager = &componentManager::getInstance();
         systemManager = &systemManager::getInstance();
     }
 
-    void engine::start(const windowConfig* const config) {
-        getManagers();
+    void engine::start() {
         std::printf("Engine started!\n");
+        getManagers();
+    }
 
-        graphicsManager::createWindow(config);
+    void engine::play(const windowConfig* const config) {
+        renderSystem::createWindow(config);
     }
 }

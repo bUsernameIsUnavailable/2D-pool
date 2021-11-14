@@ -1,8 +1,8 @@
 #ifndef INC_2D_POOL_WINDOWMANAGER_H
 #define INC_2D_POOL_WINDOWMANAGER_H
 
-#include "singleton.h"
-#include "windowConfig.h"
+#include <singleton.h>
+#include <windowConfig.h>
 
 #include <vector>
 

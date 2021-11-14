@@ -1,35 +1,33 @@
 #ifndef GRAPHICS_ENGINE_H
 #define GRAPHICS_ENGINE_H
 
-#include "componentManager.h"
-#include "entityManager.h"
-#include "graphicsManager.h"
-#include "singleton.h"
-#include "systemManager.h"
-#include "windowConfig.h"
+#include <componentManager.h>
+#include <entityManager.h>
+#include <singleton.h>
+#include <systemManager.h>
+#include <windowConfig.h>
 
 #include <memory>
 
 
 namespace base {
     class engine : public utils::singleton<engine> {
-        static const entityManager* entityManager;
-        static const componentManager* componentManager;
-        static const systemManager* systemManager;
-
-        static graphicsManager* graphicsManager;
+        static entityManager* entityManager;
+        static componentManager* componentManager;
+        static systemManager* systemManager;
 
         static void getManagers();
 
     public:
-        static void start(const windowConfig*);
+        static void start();
+        static void play(const windowConfig*);
 
-        inline static const Entity& createEntity() { return entityManager::createEntity(); }
+        inline static const Entity& createEntity() { return entityManager->createEntity(); }
 
         static void destroyEntity(const Entity& entity) {
-            entityManager::destroyEntity(entity);
-            componentManager::onEntityDestroyed(entity);
-            systemManager::onEntityDestroyed(entity);
+            entityManager->destroyEntity(entity);
+            componentManager->onEntityDestroyed(entity);
+            systemManager->onEntityDestroyed(entity);
         }
 
         template<typename T>
@@ -46,22 +44,22 @@ namespace base {
         static void addComponent(const Entity& entity, const T& component) {
             componentManager->addComponent<T>(entity, component);
 
-            const Signature signature = entityManager::getSignature(entity);
+            Signature signature = entityManager->getSignature(entity);
             signature.set(componentManager->getComponentType<T>(), true);
 
-            entityManager::setSignature(entity, signature);
-            systemManager::onEntitySignatureChanged(entity, signature);
+            entityManager->setSignature(entity, signature);
+            systemManager->onEntitySignatureChanged(entity, signature);
         }
 
         template<typename T>
         static void removeComponent(const Entity& entity) {
             componentManager->removeComponent<T>(entity);
 
-            const Signature signature = entityManager::getSignature(entity);
+            const Signature signature = entityManager->getSignature(entity);
             signature.set(componentManager->getComponentType<T>(), false);
 
-            entityManager::setSignature(entity, signature);
-            systemManager::onEntitySignatureChanged(entity, signature);
+            entityManager->setSignature(entity, signature);
+            systemManager->onEntitySignatureChanged(entity, signature);
         }
 
         template<typename T>
@@ -70,8 +68,8 @@ namespace base {
         }
 
         template<typename T>
-        inline static std::shared_ptr<T> registerSystem() {
-            return systemManager->registerSystem<T>();
+        inline static void registerSystem(system* const system) {
+            systemManager->registerSystem<T>(system);
         }
 
         template<typename T>
