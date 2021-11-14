@@ -1,4 +1,4 @@
-#include "../include/windowConfig.h"
+#include "windowConfig.h"
 
 
 namespace base {

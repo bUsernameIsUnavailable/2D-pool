@@ -11,6 +11,7 @@ namespace utils {
     public:
         singleton(const T&) = delete;
         singleton(T&&) = delete;
+        virtual ~singleton() = default;
 
         T& operator= (const T&) = delete;
         T& operator= (T&&) = delete;

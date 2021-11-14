@@ -1,11 +1,10 @@
-#include "../include/engine.h"
-
-#include <GL/freeglut.h>
+#include "engine.h"
+#include "windowManager.h"
 
 
 int main(int argc, char** const argv)
 {
-    base::engine::getInstance().start((new base::windowConfig())
+    base::engine::start(base::windowManager::getInstance().createWindowConfig()
         ->setArguments(argc, argv)
         ->setDisplayMode(GLUT_SINGLE | GLUT_RGB)
         ->setPosition(100, 100)

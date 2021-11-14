@@ -3,6 +3,7 @@
 
 #include "componentManager.h"
 #include "entityManager.h"
+#include "graphicsManager.h"
 #include "singleton.h"
 #include "systemManager.h"
 #include "windowConfig.h"
@@ -16,15 +17,12 @@ namespace base {
         static const componentManager* componentManager;
         static const systemManager* systemManager;
 
-        const windowConfig* config;
+        static graphicsManager* graphicsManager;
 
-        static void initialiseManagers();
-        static void onStart();
-        static void render();
-        static void cleanup();
+        static void getManagers();
 
     public:
-        void start(const windowConfig*);
+        static void start(const windowConfig*);
 
         inline static const Entity& createEntity() { return entityManager::createEntity(); }
 
