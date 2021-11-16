@@ -20,7 +20,7 @@ namespace base {
         std::set<Entity> entities;
     };
 
-    class systemManager : public utils::singleton<systemManager> {
+    class systemManager final : public utils::singleton<systemManager> {
     public:
         std::unordered_map<const char*, system* const> systems;
         std::unordered_map<const char*, const Signature> signatures;

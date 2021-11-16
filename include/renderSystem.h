@@ -2,7 +2,7 @@
 #define INC_2D_POOL_RENDERSYSTEM_H
 
 #include <systemManager.h>
-#include <windowConfig.h>
+#include <windowManager.h>
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -12,7 +12,7 @@
 
 
 namespace base {
-    class renderSystem : public system, public utils::singleton<renderSystem> {
+    class renderSystem final : public system, public utils::singleton<renderSystem> {
         static std::string vertexShader;
         static std::string fragmentShader;
 
@@ -33,6 +33,7 @@ namespace base {
         static std::vector<GLuint> totalIndices;
 
         static void initialise();
+        static void reshapeWindow(GLint, GLint);
         static void cleanup();
 
         void createVbo();
@@ -43,6 +44,7 @@ namespace base {
     public:
         static void createWindow(const windowConfig*);
 
+        static void update();
         void render();
     };
 }

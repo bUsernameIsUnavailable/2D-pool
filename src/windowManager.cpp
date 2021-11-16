@@ -2,6 +2,8 @@
 
 
 namespace base {
+    std::vector<windowConfig*> windowManager::windows;
+
     windowManager::~windowManager() {
         for (const auto& window : windows) {
             delete window;

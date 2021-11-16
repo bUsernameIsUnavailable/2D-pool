@@ -10,7 +10,7 @@
 
 
 namespace base {
-    class entityManager : public utils::singleton<entityManager> {
+    class entityManager final : public utils::singleton<entityManager> {
         Entity livingEntityCount = 0u;
         std::queue<Entity> availableEntities;
         std::array<Signature, maxEntityCount> signatures;

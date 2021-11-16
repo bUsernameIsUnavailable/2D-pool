@@ -1,6 +1,7 @@
 #include <engine.h>
 #include <meshComponent.h>
 #include <renderSystem.h>
+#include <transformComponent.h>
 
 #include <fstream>
 
@@ -41,18 +42,36 @@ namespace base {
         glewInit();
         initialise();
         glutDisplayFunc(renderCallback);
+        glutReshapeFunc(renderSystem::reshapeWindow);
         glutCloseFunc(renderSystem::cleanup);
-        glutMainLoop();
+    }
+
+    void renderSystem::update() {
+        glutMainLoopEvent();
+        glutPostRedisplay();
     }
 
     void renderSystem::render() {
         glClear(GL_COLOR_BUFFER_BIT);
         createVbo();
 
-        currentTransform = resizeMatrix;
-        currentTransformId = glGetUniformLocation(programId, "currentTransform");
-        glUniformMatrix4fv(currentTransformId, 1u, GL_FALSE, &currentTransform[0][0]);
-        glDrawElements(GL_TRIANGLES, (GLsizei) totalIndices.size(), GL_UNSIGNED_INT, nullptr);
+        size_t previousMeshIndexSize = 0u;
+        for (const auto& entity : entities) {
+            const auto& transform = engine::getComponent<transformComponent>(entity);
+            const auto& mesh = engine::getComponent<meshComponent>(entity);
+
+            currentTransform = resizeMatrix * transform.translation;
+            currentTransformId = glGetUniformLocation(programId, "currentTransform");
+            glUniformMatrix4fv(currentTransformId, 1u, GL_FALSE, &currentTransform[0u][0u]);
+            glDrawElements(
+                    GL_TRIANGLES,
+                    (GLsizei) mesh.indices.size(),
+                    GL_UNSIGNED_INT,
+                    (GLvoid*) (previousMeshIndexSize * sizeof(GLuint))
+            );
+
+            previousMeshIndexSize += mesh.indices.size();
+        }
 
         glFlush();
     }
@@ -66,6 +85,13 @@ namespace base {
 
         glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
         loadShaders();
+    }
+
+    void renderSystem::reshapeWindow(const GLint newWidth, const GLint newHeight) {
+        windowConfig* const window = windowManager::getWindow();
+        window->setSize(newWidth, newHeight);
+
+        glViewport(0, 0, window->getSize().width, window->getSize().height);
     }
 
     void renderSystem::cleanup() {

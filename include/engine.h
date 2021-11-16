@@ -1,8 +1,11 @@
 #ifndef GRAPHICS_ENGINE_H
 #define GRAPHICS_ENGINE_H
 
+#include <accelerationSystem.h>
 #include <componentManager.h>
 #include <entityManager.h>
+#include <physics2DSystem.h>
+#include <renderSystem.h>
 #include <singleton.h>
 #include <systemManager.h>
 #include <windowConfig.h>
@@ -11,12 +14,17 @@
 
 
 namespace base {
-    class engine : public utils::singleton<engine> {
+    class engine final : public utils::singleton<engine> {
+        static float fps;
+
         static entityManager* entityManager;
         static componentManager* componentManager;
         static systemManager* systemManager;
 
-        static void getManagers();
+        static physics2DSystem* physicsSystem;
+        static accelerationSystem* accelerationSystem;
+
+        static void getInstances();
 
     public:
         static void start();
@@ -63,7 +71,7 @@ namespace base {
         }
 
         template<typename T>
-        inline static const T& getComponent(const Entity& entity) {
+        inline static T& getComponent(const Entity& entity) {
             return componentManager->getComponent<T>(entity);
         }
 

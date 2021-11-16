@@ -8,13 +8,15 @@
 
 
 namespace base {
-    class windowManager : public utils::singleton<windowManager> {
-        std::vector<const windowConfig*> windows;
+    class windowManager final : public utils::singleton<windowManager> {
+        static std::vector<windowConfig*> windows;
 
     public:
         ~windowManager() override;
 
-        windowConfig* createWindowConfig();
+        static windowConfig* createWindowConfig();
+
+        inline static windowConfig*& getWindow(const unsigned int& index = 0u) { return windows[index]; }
     };
 }
 

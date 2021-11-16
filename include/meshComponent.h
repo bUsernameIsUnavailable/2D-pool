@@ -7,7 +7,7 @@
 
 
 namespace base {
-    struct meshComponent {
+    struct meshComponent final {
         std::vector<GLfloat> vertices;
         std::vector<GLuint> indices;
     };

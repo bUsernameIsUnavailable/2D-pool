@@ -18,6 +18,7 @@ namespace base {
 
     template<typename T>
     class componentArray : public componentArrayBase {
+    protected:
         size_t size = 0u;
         std::array<T, maxEntityCount> components;
         std::unordered_map<Entity, size_t> mapEntityToIndex;
@@ -50,7 +51,7 @@ namespace base {
             --size;
         }
 
-        const T& getData(const Entity& entity) {
+        T& getData(const Entity& entity) {
             assert(mapEntityToIndex.find(entity) != mapEntityToIndex.end() && "Entity doesn't own component!");
 
             return components[mapEntityToIndex[entity]];
@@ -64,7 +65,7 @@ namespace base {
         }
     };
 
-    class componentManager : public utils::singleton<componentManager> {
+    class componentManager final : public utils::singleton<componentManager> {
         ComponentType nextComponentType;
         std::unordered_map<const char*, ComponentType> componentTypes;
         std::unordered_map<const char*, std::shared_ptr<componentArrayBase>> componentArrays;
@@ -107,7 +108,7 @@ namespace base {
         }
 
         template<typename T>
-        inline const T& getComponent(const Entity& entity) {
+        inline T& getComponent(const Entity& entity) {
             return getComponentArray<T>()->getData(entity);
         }
 
