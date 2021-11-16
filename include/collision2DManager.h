@@ -8,7 +8,7 @@
 namespace base {
     class collision2DManager : public utils::singleton<collision2DManager> {
     public:
-        static bool areOverlapping(const collider2DComponent&, const collider2DComponent&);
+        static glm::vec2 getOverlap(const collider2DComponent&, const collider2DComponent&);
     };
 }
 

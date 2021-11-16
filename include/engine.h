@@ -1,10 +1,10 @@
 #ifndef GRAPHICS_ENGINE_H
 #define GRAPHICS_ENGINE_H
 
-#include <accelerationSystem.h>
+#include <movementSystem.h>
 #include <componentManager.h>
 #include <entityManager.h>
-#include <physics2DSystem.h>
+#include <elasticCollisionSystem.h>
 #include <renderSystem.h>
 #include <singleton.h>
 #include <systemManager.h>
@@ -21,8 +21,8 @@ namespace base {
         static componentManager* componentManager;
         static systemManager* systemManager;
 
-        static physics2DSystem* physicsSystem;
-        static accelerationSystem* accelerationSystem;
+        static elasticCollisionSystem* elasticCollisionSystem;
+        static movementSystem* movementSystem;
 
         static void getInstances();
 

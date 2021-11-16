@@ -2,14 +2,14 @@
 
 
 namespace base {
-    float engine::fps = 240.0f;
+    float engine::fps = 300.0f;
 
     entityManager* engine::entityManager;
     componentManager* engine::componentManager;
     systemManager* engine::systemManager;
 
-    physics2DSystem* engine::physicsSystem;
-    accelerationSystem* engine::accelerationSystem;
+    elasticCollisionSystem* engine::elasticCollisionSystem;
+    movementSystem* engine::movementSystem;
 
 
     void engine::getInstances() {
@@ -17,8 +17,8 @@ namespace base {
         componentManager = &componentManager::getInstance();
         systemManager = &systemManager::getInstance();
 
-        physicsSystem = &physics2DSystem::getInstance();
-        accelerationSystem = &accelerationSystem::getInstance();
+        elasticCollisionSystem = &elasticCollisionSystem::getInstance();
+        movementSystem = &movementSystem::getInstance();
     }
 
     void engine::start() {
@@ -31,8 +31,8 @@ namespace base {
 
         fps += (float) (fps == 0.0f);
         do {
-            physicsSystem->update();
-            accelerationSystem->update(1.0f / fps);
+            elasticCollisionSystem->update(1.0f / fps);
+            movementSystem->update();
             renderSystem::update();
         } while (glutGetWindow());
     }

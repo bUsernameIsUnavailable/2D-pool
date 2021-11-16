@@ -1,6 +1,7 @@
 #include <collider2DComponent.h>
 #include <engine.h>
 #include <meshComponent.h>
+#include <polygonData.h>
 #include <rigidbody2DComponent.h>
 #include <transformComponent.h>
 
@@ -9,118 +10,170 @@ namespace pool {
     static unsigned int totalDifferentIndices = 0u;
 
     static void createTable() {
-        const base::Entity& table = base::engine::createEntity();
-        base::engine::addComponent(table, base::transformComponent());
-        base::engine::addComponent(table, base::meshComponent {
-            .vertices = {
-                    -60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-                     60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-                     60.0f,  30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                    -60.0f,  30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
-            },
-            .indices = {
-                    totalDifferentIndices,      totalDifferentIndices + 1u, totalDifferentIndices + 2u,
-                    totalDifferentIndices + 3u, totalDifferentIndices     , totalDifferentIndices + 2u
-            }
-        });
-        totalDifferentIndices += 4u;
+        {
+            const base::Entity &table = base::engine::createEntity();
+            base::engine::addComponent(table, base::transformComponent());
+            base::engine::addComponent(table, base::meshComponent{
+                    .vertices = {
+                            -60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+                            60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+                            60.0f, 30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                            -60.0f, 30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
+                    },
+                    .indices = {
+                            totalDifferentIndices, totalDifferentIndices + 1u, totalDifferentIndices + 2u,
+                            totalDifferentIndices + 3u, totalDifferentIndices, totalDifferentIndices + 2u
+                    }
+            });
 
-        const base::Entity& leftMargin = base::engine::createEntity();
-        base::engine::addComponent(leftMargin, base::transformComponent());
-        base::engine::addComponent(leftMargin, base::meshComponent {
-            .vertices = {
-                    -60.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
-                    -55.0f, -20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
-                    -55.0f,  20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
-                    -60.0f,  25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
-            },
-            .indices = {
-                    totalDifferentIndices,      totalDifferentIndices + 1u, totalDifferentIndices + 2u,
-                    totalDifferentIndices + 3u, totalDifferentIndices     , totalDifferentIndices + 2u
-            }
-        });
-        base::engine::addComponent(leftMargin, base::collider2DComponent {
-            .points = {
-                    { -60.0f, -25.0f },
-                    { -55.0f, -20.0f },
-                    { -55.0f,  20.0f },
-                    { -60.0f,  25.0f }
-            }
-        });
-        totalDifferentIndices += 4u;
+            totalDifferentIndices += 4u;
+        }
 
-        const base::Entity& rightMargin = base::engine::createEntity();
-        base::engine::addComponent(rightMargin, base::transformComponent());
-        base::engine::addComponent(rightMargin, base::meshComponent {
-            .vertices = {
-                    60.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
-                    60.0f,  25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
-                    55.0f,  20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
-                    55.0f, -20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
-            },
-            .indices = {
-                    totalDifferentIndices,      totalDifferentIndices + 1u, totalDifferentIndices + 2u,
-                    totalDifferentIndices + 3u, totalDifferentIndices     , totalDifferentIndices + 2u
-            }
-        });
-        base::engine::addComponent(rightMargin, base::collider2DComponent {
-            .points = {
-                    { 60.0f, -25.0f },
-                    { 60.0f,  25.0f },
-                    { 55.0f,  20.0f },
-                    { 55.0f, -20.0f }
-            }
-        });
-        totalDifferentIndices += 4u;
+        {
+            const base::Entity &leftMargin = base::engine::createEntity();
+            base::engine::addComponent(leftMargin, base::transformComponent());
+            base::engine::addComponent(leftMargin, base::meshComponent{
+                    .vertices = {
+                            -60.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
+                            -55.0f, -20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
+                            -55.0f, 20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
+                            -60.0f, 25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
+                    },
+                    .indices = {
+                            totalDifferentIndices, totalDifferentIndices + 1u, totalDifferentIndices + 2u,
+                            totalDifferentIndices + 3u, totalDifferentIndices, totalDifferentIndices + 2u
+                    }
+            });
+            base::engine::addComponent(leftMargin, base::collider2DComponent{
+                    .points = {
+                            {-60.0f, -25.0f},
+                            {-55.0f, -20.0f},
+                            {-55.0f, 20.0f},
+                            {-60.0f, 25.0f}
+                    }
+            });
+            base::engine::addComponent(leftMargin, base::rigidbody2DComponent());
 
-        const base::Entity& lowerMargin = base::engine::createEntity();
-        base::engine::addComponent(lowerMargin, base::transformComponent());
-        base::engine::addComponent(lowerMargin, base::meshComponent {
-            .vertices = {
-                    -55.0f, -30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
-                     55.0f, -30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
-                     50.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
-                    -50.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
-            },
-            .indices = {
-                    totalDifferentIndices,      totalDifferentIndices + 1u, totalDifferentIndices + 2u,
-                    totalDifferentIndices + 3u, totalDifferentIndices     , totalDifferentIndices + 2u
-            }
-        });
-        base::engine::addComponent(lowerMargin, base::collider2DComponent {
-            .points = {
-                    { -55.0f, -30.0f },
-                    {  55.0f, -30.0f },
-                    {  50.0f, -25.0f },
-                    { -50.0f, -25.0f }
-            }
-        });
-        base::engine::addComponent(lowerMargin, base::rigidbody2DComponent());
-        totalDifferentIndices += 4u;
+            totalDifferentIndices += 4u;
+        }
 
-        const base::Entity& upperMargin = base::engine::createEntity();
-        base::engine::addComponent(upperMargin, base::transformComponent());
-        base::engine::addComponent(upperMargin, base::meshComponent {
-            .vertices = {
-                    -55.0f, 30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
-                    -50.0f, 25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
-                     50.0f, 25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
-                     55.0f, 30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
-            },
-            .indices = {
-                    totalDifferentIndices,      totalDifferentIndices + 1u, totalDifferentIndices + 2u,
-                    totalDifferentIndices + 3u, totalDifferentIndices     , totalDifferentIndices + 2u
-            }
+        {
+            const base::Entity &rightMargin = base::engine::createEntity();
+            base::engine::addComponent(rightMargin, base::transformComponent());
+            base::engine::addComponent(rightMargin, base::meshComponent{
+                    .vertices = {
+                            60.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
+                            60.0f, 25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
+                            55.0f, 20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
+                            55.0f, -20.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
+                    },
+                    .indices = {
+                            totalDifferentIndices, totalDifferentIndices + 1u, totalDifferentIndices + 2u,
+                            totalDifferentIndices + 3u, totalDifferentIndices, totalDifferentIndices + 2u
+                    }
+            });
+            base::engine::addComponent(rightMargin, base::collider2DComponent{
+                    .points = {
+                            {60.0f, -25.0f},
+                            {60.0f, 25.0f},
+                            {55.0f, 20.0f},
+                            {55.0f, -20.0f}
+                    }
+            });
+            base::engine::addComponent(rightMargin, base::rigidbody2DComponent());
+
+            totalDifferentIndices += 4u;
+        }
+
+        {
+            const base::Entity &lowerMargin = base::engine::createEntity();
+            base::engine::addComponent(lowerMargin, base::transformComponent());
+            base::engine::addComponent(lowerMargin, base::meshComponent{
+                    .vertices = {
+                            -55.0f, -30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
+                            55.0f, -30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
+                            50.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
+                            -50.0f, -25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
+                    },
+                    .indices = {
+                            totalDifferentIndices, totalDifferentIndices + 1u, totalDifferentIndices + 2u,
+                            totalDifferentIndices + 3u, totalDifferentIndices, totalDifferentIndices + 2u
+                    }
+            });
+            base::engine::addComponent(lowerMargin, base::collider2DComponent{
+                    .points = {
+                            {-55.0f, -30.0f},
+                            {55.0f,  -30.0f},
+                            {50.0f,  -25.0f},
+                            {-50.0f, -25.0f}
+                    }
+            });
+            base::engine::addComponent(lowerMargin, base::rigidbody2DComponent());
+
+            totalDifferentIndices += 4u;
+        }
+
+        {
+            const base::Entity &upperMargin = base::engine::createEntity();
+            base::engine::addComponent(upperMargin, base::transformComponent());
+            base::engine::addComponent(upperMargin, base::meshComponent{
+                    .vertices = {
+                            -55.0f, 30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 0.0f,
+                            -50.0f, 25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 0.0f,
+                            50.0f, 25.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 1.0f, 1.0f,
+                            55.0f, 30.0f, 0.0f, 1.0f, 0.64705882352f, 0.16470588235f, 0.16470588235f, 0.0f, 1.0f
+                    },
+                    .indices = {
+                            totalDifferentIndices, totalDifferentIndices + 1u, totalDifferentIndices + 2u,
+                            totalDifferentIndices + 3u, totalDifferentIndices, totalDifferentIndices + 2u
+                    }
+            });
+            base::engine::addComponent(upperMargin, base::collider2DComponent{
+                    .points = {
+                            {-55.0f, 30.0f},
+                            {-50.0f, 25.0f},
+                            {50.0f,  25.0f},
+                            {55.0f,  30.0f}
+                    }
+            });
+            base::engine::addComponent(upperMargin, base::rigidbody2DComponent());
+
+            totalDifferentIndices += 4u;
+        }
+    }
+
+    static void createBalls() {
+        const utils::polygonData whiteBallData(0.0f, 0.0f, 2.5f, 360u, totalDifferentIndices, 1.0f, 1.0f, 1.0f);
+        const base::Entity& whiteBall = base::engine::createEntity();
+        base::engine::addComponent(whiteBall, base::transformComponent());
+        base::engine::addComponent(whiteBall, base::meshComponent {
+                .vertices = whiteBallData.getVertices(),
+                .indices = whiteBallData.getIndices()
         });
-        base::engine::addComponent(upperMargin, base::collider2DComponent {
-            .points = {
-                    { -55.0f, 30.0f },
-                    { -50.0f, 25.0f },
-                    {  50.0f, 25.0f },
-                    {  55.0f, 30.0f }
-            }
+        base::engine::addComponent(whiteBall, base::collider2DComponent {
+                .points = whiteBallData.getPoints()
         });
-        totalDifferentIndices += 4u;
+        base::engine::addComponent(whiteBall, base::rigidbody2DComponent {
+                .velocity = { 0.0005f, -0.0002f },
+                .mass = 0.3f
+        });
+
+        for (unsigned int index = 0u; index < 1u; ++index) {
+            const utils::polygonData ballData(12.0f, 0.0f, 2.5f, 360u, totalDifferentIndices, 0.0f, 0.0f, 0.0f);
+            const base::Entity& ball = base::engine::createEntity();
+            base::engine::addComponent(ball, base::transformComponent());
+            base::engine::addComponent(ball, base::meshComponent {
+                    .vertices = ballData.getVertices(),
+                    .indices = ballData.getIndices()
+            });
+            base::engine::addComponent(ball, base::collider2DComponent {
+                    .points = ballData.getPoints()
+            });
+            base::engine::addComponent(ball, base::rigidbody2DComponent {
+                    .velocity = { -0.0002f, -0.0004f },
+                    .mass = 0.3f
+            });
+        }
     }
 
     static void registerComponents() {
@@ -132,8 +185,8 @@ namespace pool {
 
     static void registerSystems() {
         base::engine::registerSystem<base::renderSystem>(&base::renderSystem::getInstance());
-        base::engine::registerSystem<base::physics2DSystem>(&base::physics2DSystem::getInstance());
-        base::engine::registerSystem<base::accelerationSystem>(&base::accelerationSystem::getInstance());
+        base::engine::registerSystem<base::elasticCollisionSystem>(&base::elasticCollisionSystem::getInstance());
+        base::engine::registerSystem<base::movementSystem>(&base::movementSystem::getInstance());
     }
 
     static void setSystemSignatures() {
@@ -142,20 +195,21 @@ namespace pool {
         renderSignature.set(base::engine::getComponentType<base::meshComponent>());
         base::engine::setSystemSignature<base::renderSystem>(renderSignature);
 
-        base::Signature physicsSignature;
-        physicsSignature.set(base::engine::getComponentType<base::transformComponent>());
-        physicsSignature.set(base::engine::getComponentType<base::collider2DComponent>());
-        base::engine::setSystemSignature<base::physics2DSystem>(physicsSignature);
+        base::Signature elasticCollisionSignature;
+        elasticCollisionSignature.set(base::engine::getComponentType<base::rigidbody2DComponent>());
+        elasticCollisionSignature.set(base::engine::getComponentType<base::collider2DComponent>());
+        base::engine::setSystemSignature<base::elasticCollisionSystem>(elasticCollisionSignature);
 
-        base::Signature accelerationSignature;
-        accelerationSignature.set(base::engine::getComponentType<base::transformComponent>());
-        accelerationSignature.set(base::engine::getComponentType<base::collider2DComponent>());
-        accelerationSignature.set(base::engine::getComponentType<base::rigidbody2DComponent>());
-        base::engine::setSystemSignature<base::accelerationSystem>(accelerationSignature);
+        base::Signature movementSignature;
+        movementSignature.set(base::engine::getComponentType<base::transformComponent>());
+        movementSignature.set(base::engine::getComponentType<base::collider2DComponent>());
+        movementSignature.set(base::engine::getComponentType<base::rigidbody2DComponent>());
+        base::engine::setSystemSignature<base::movementSystem>(movementSignature);
     }
 
     static void createEntities() {
         createTable();
+        createBalls();
 
         /*
         std::vector<base::Entity> balls(16u);
