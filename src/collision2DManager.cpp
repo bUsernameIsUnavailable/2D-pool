@@ -50,7 +50,7 @@ namespace base {
 
             if (currentOverlapDistance < overlapDistance) {
                 overlapDistance = currentOverlapDistance;
-                overlapDirection = (float) (2 * (maxPointFrom <= maxPointTo) - 1) * axisProjection;
+                overlapDirection = (float) (2 * (maxPointFrom >= maxPointTo) - 1) * axisProjection;
             }
         }
 

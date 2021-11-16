@@ -34,8 +34,8 @@ namespace base {
                     overlap *= overlapToFrom;
                 }
 
-                rigidbody2DFrom.velocity -= overlap;
-                rigidbody2DTo.velocity += overlap;
+                rigidbody2DFrom.velocity += overlap;
+                rigidbody2DTo.velocity -= overlap;
             }
         }
     }
