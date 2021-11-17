@@ -8,13 +8,13 @@ I have implemented it this way, despite not needing the performance boost, becau
 
 The code has been adapted from [the website](https://austinmorlan.com/posts/entity_component_system/) of Austin Morlan, a very seasoned C++ programmer.
 
-#### Entities
+### Entities
 Anything that exists within the game world is an entity. This includes the pool table, the 4 margins and the balls.
 
-#### Components
+### Components
 Components are simply structures of data which give entities meaning. An entity by itself is only an index, so each component that it owns adds more data.
 
-#### Systems
+### Systems
 The entities along with their components don't do anything by themselves. The systems are the ones that act upon certain entities depending on the components that they're looking for.
 
 ## Rendering
