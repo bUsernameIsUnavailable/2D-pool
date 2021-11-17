@@ -32,16 +32,16 @@ namespace base {
         static std::vector<GLfloat> totalVertices;
         static std::vector<GLuint> totalIndices;
 
-        static void initialise();
         static void reshapeWindow(GLint, GLint);
-        static void cleanup();
 
         void createVbo();
-        static void destroyVbo();
-
         static void loadShaders();
 
+        static void cleanup();
+        static void destroyVbo();
+
     public:
+        void initialise();
         static void createWindow(const windowConfig*);
 
         static void update();

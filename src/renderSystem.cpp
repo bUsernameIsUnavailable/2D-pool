@@ -8,6 +8,11 @@
 
 namespace base {
     extern "C"
+    void initialiseCallback() {
+        renderSystem::getInstance().initialise();
+    }
+
+    extern "C"
     void renderCallback() {
         renderSystem::getInstance().render();
     }
@@ -32,6 +37,18 @@ namespace base {
     std::vector<GLuint> renderSystem::totalIndices;
 
 
+    void renderSystem::initialise() {
+        std::printf("Initialising...\n");
+        vertexShader = "../shaders/pool_shader.vert";
+        fragmentShader = "../shaders/pool_shader.frag";
+
+        resizeMatrix = glm::ortho(-screenWidth, screenWidth, -screenHeight, screenHeight);
+
+        glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        createVbo();
+        loadShaders();
+    }
+
     void renderSystem::createWindow(const windowConfig* const config) {
         glutInit(config->getArgumentCount(), config->getArgumentVector());
         glutInitDisplayMode(config->getDisplayMode());
@@ -40,7 +57,7 @@ namespace base {
         glutCreateWindow(config->getTitle().c_str());
 
         glewInit();
-        initialise();
+        initialiseCallback();
         glutDisplayFunc(renderCallback);
         glutReshapeFunc(renderSystem::reshapeWindow);
         glutCloseFunc(renderSystem::cleanup);
@@ -53,7 +70,6 @@ namespace base {
 
     void renderSystem::render() {
         glClear(GL_COLOR_BUFFER_BIT);
-        createVbo();
 
         size_t previousMeshIndexSize = 0u;
         for (const auto& entity : entities) {
@@ -76,28 +92,11 @@ namespace base {
         glFlush();
     }
 
-    void renderSystem::initialise() {
-        std::printf("Initialising...\n");
-        vertexShader = "../shaders/pool_shader.vert";
-        fragmentShader = "../shaders/pool_shader.frag";
-
-        resizeMatrix = glm::ortho(-screenWidth, screenWidth, -screenHeight, screenHeight);
-
-        glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-        loadShaders();
-    }
-
     void renderSystem::reshapeWindow(const GLint newWidth, const GLint newHeight) {
         windowConfig* const window = windowManager::getWindow();
         window->setSize(newWidth, newHeight);
 
         glViewport(0, 0, window->getSize().width, window->getSize().height);
-    }
-
-    void renderSystem::cleanup() {
-        std::printf("Cleaning up...\n");
-        destroyVbo();
-        std::printf("Cleanup successful!\n\n");
     }
 
     void renderSystem::createVbo() {
@@ -132,19 +131,6 @@ namespace base {
         glEnableVertexAttribArray(0u);
         glEnableVertexAttribArray(1u);
         glEnableVertexAttribArray(2u);
-    }
-
-    void renderSystem::destroyVbo() {
-        glDisableVertexAttribArray(2u);
-        glDisableVertexAttribArray(1u);
-        glDisableVertexAttribArray(0u);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0u);
-        glDeleteBuffers(1u, &eboId);
-        glDeleteBuffers(1u, &vboId);
-
-        glBindVertexArray(0u);
-        glDeleteVertexArrays(1u, &vaoId);
     }
 
     void renderSystem::loadShaders() {
@@ -203,5 +189,24 @@ namespace base {
         glDeleteShader(vertexShaderId);
 
         glUseProgram(programId);
+    }
+
+    void renderSystem::cleanup() {
+        std::printf("Cleaning up...\n");
+        destroyVbo();
+        std::printf("Cleanup successful!\n\n");
+    }
+
+    void renderSystem::destroyVbo() {
+        glDisableVertexAttribArray(2u);
+        glDisableVertexAttribArray(1u);
+        glDisableVertexAttribArray(0u);
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0u);
+        glDeleteBuffers(1u, &eboId);
+        glDeleteBuffers(1u, &vboId);
+
+        glBindVertexArray(0u);
+        glDeleteVertexArrays(1u, &vaoId);
     }
 }

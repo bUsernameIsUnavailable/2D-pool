@@ -46,7 +46,7 @@ namespace base {
             ) + (float) (
                     (minPointTo <= minPointFrom && maxPointFrom <= maxPointTo)
                     || (minPointFrom <= minPointTo && maxPointTo <= maxPointFrom)
-            ) * std::min(std::abs(minPointFrom - minPointTo), std::abs(maxPointFrom - maxPointTo));
+            ) * std::min(std::abs(minPointFrom - minPointTo), std::abs(maxPointFrom - maxPointTo)) / 2.0f;
 
             if (currentOverlapDistance < overlapDistance) {
                 overlapDistance = currentOverlapDistance;

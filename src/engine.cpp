@@ -8,7 +8,7 @@ namespace base {
     componentManager* engine::componentManager;
     systemManager* engine::systemManager;
 
-    elasticCollisionSystem* engine::elasticCollisionSystem;
+    collisionSystem* engine::collisionSystem;
     movementSystem* engine::movementSystem;
 
 
@@ -17,7 +17,7 @@ namespace base {
         componentManager = &componentManager::getInstance();
         systemManager = &systemManager::getInstance();
 
-        elasticCollisionSystem = &elasticCollisionSystem::getInstance();
+        collisionSystem = &collisionSystem::getInstance();
         movementSystem = &movementSystem::getInstance();
     }
 
@@ -31,7 +31,7 @@ namespace base {
 
         fps += (float) (fps == 0.0f);
         do {
-            elasticCollisionSystem->update(1.0f / fps);
+            collisionSystem->update(1.0f / fps);
             movementSystem->update();
             renderSystem::update();
         } while (glutGetWindow());

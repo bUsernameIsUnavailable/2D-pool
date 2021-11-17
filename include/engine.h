@@ -4,7 +4,7 @@
 #include <movementSystem.h>
 #include <componentManager.h>
 #include <entityManager.h>
-#include <elasticCollisionSystem.h>
+#include <collisionSystem.h>
 #include <renderSystem.h>
 #include <singleton.h>
 #include <systemManager.h>
@@ -21,7 +21,7 @@ namespace base {
         static componentManager* componentManager;
         static systemManager* systemManager;
 
-        static elasticCollisionSystem* elasticCollisionSystem;
+        static collisionSystem* collisionSystem;
         static movementSystem* movementSystem;
 
         static void getInstances();

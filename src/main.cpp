@@ -143,7 +143,7 @@ namespace pool {
     }
 
     static void createBalls() {
-        const utils::polygonData whiteBallData(0.0f, 0.0f, 2.5f, 360u, totalDifferentIndices, 1.0f, 1.0f, 1.0f);
+        const utils::polygonData whiteBallData(0.0f, 0.0f, 2.0f, 360u, totalDifferentIndices, 1.0f, 1.0f, 1.0f);
         const base::Entity& whiteBall = base::engine::createEntity();
         base::engine::addComponent(whiteBall, base::transformComponent());
         base::engine::addComponent(whiteBall, base::meshComponent {
@@ -154,12 +154,12 @@ namespace pool {
                 .points = whiteBallData.getPoints()
         });
         base::engine::addComponent(whiteBall, base::rigidbody2DComponent {
-                .velocity = { 0.0005f, -0.0002f },
-                .mass = 0.3f
+                .velocity = { 0.02f, -0.004f },
+                .mass = 5.0f
         });
 
-        for (unsigned int index = 0u; index < 1u; ++index) {
-            const utils::polygonData ballData(12.0f, 0.0f, 2.5f, 360u, totalDifferentIndices, 0.0f, 0.0f, 0.0f);
+        for (unsigned int index = 0u; index < 3u; ++index) {
+            const utils::polygonData ballData(10.0f + 10.0f * (float) index, 0.0f, 2.0f, 360u, totalDifferentIndices, 0.0f, 0.0f, 0.0f);
             const base::Entity& ball = base::engine::createEntity();
             base::engine::addComponent(ball, base::transformComponent());
             base::engine::addComponent(ball, base::meshComponent {
@@ -170,8 +170,9 @@ namespace pool {
                     .points = ballData.getPoints()
             });
             base::engine::addComponent(ball, base::rigidbody2DComponent {
-                    .velocity = { -0.0002f, -0.0004f },
-                    .mass = 0.3f
+                    //.velocity = { -0.002f, (float) (2 * (index % 2) - 1) * 0.004f },
+                    .velocity = { -0.002f, -0.004f },
+                    .mass = 30.0f
             });
         }
     }
@@ -185,7 +186,7 @@ namespace pool {
 
     static void registerSystems() {
         base::engine::registerSystem<base::renderSystem>(&base::renderSystem::getInstance());
-        base::engine::registerSystem<base::elasticCollisionSystem>(&base::elasticCollisionSystem::getInstance());
+        base::engine::registerSystem<base::collisionSystem>(&base::collisionSystem::getInstance());
         base::engine::registerSystem<base::movementSystem>(&base::movementSystem::getInstance());
     }
 
@@ -195,10 +196,11 @@ namespace pool {
         renderSignature.set(base::engine::getComponentType<base::meshComponent>());
         base::engine::setSystemSignature<base::renderSystem>(renderSignature);
 
-        base::Signature elasticCollisionSignature;
-        elasticCollisionSignature.set(base::engine::getComponentType<base::rigidbody2DComponent>());
-        elasticCollisionSignature.set(base::engine::getComponentType<base::collider2DComponent>());
-        base::engine::setSystemSignature<base::elasticCollisionSystem>(elasticCollisionSignature);
+        base::Signature collisionSignature;
+        collisionSignature.set(base::engine::getComponentType<base::transformComponent>());
+        collisionSignature.set(base::engine::getComponentType<base::rigidbody2DComponent>());
+        collisionSignature.set(base::engine::getComponentType<base::collider2DComponent>());
+        base::engine::setSystemSignature<base::collisionSystem>(collisionSignature);
 
         base::Signature movementSignature;
         movementSignature.set(base::engine::getComponentType<base::transformComponent>());
