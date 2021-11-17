@@ -23,7 +23,7 @@ The graphics are drawn using [OpenGL](https://www.opengl.org/), along with addit
 ## Collisions
 In order to check for collisions, the engine uses the [Separating Axis Theorem (SAT)](https://en.wikipedia.org/wiki/Hyperplane_separation_theorem), which works for any 2 convex shapes. Resolving the collision is done using the code taken from [a question](https://stackoverflow.com/questions/345838/ball-to-ball-collision-detection-and-handling/345863) on Stack Overflow that's based on the [impulse momentum theorem](https://en.wikipedia.org/wiki/Impulse_(physics)).
 
-https://i.imgur.com/LdQEP0z.mp4
+![Collision Demo](demo/collision_demo.gif)
 
 # Issues
 The project is by no means a game and is only meant to be a learning experience on how to render computer graphics and how to implement collisions in 2D.
