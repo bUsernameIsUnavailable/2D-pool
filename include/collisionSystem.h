@@ -7,11 +7,10 @@
 
 namespace base {
     class collisionSystem final : public system, public utils::singleton<collisionSystem> {
-        std::vector<Entity> colliderEntities;
         static constexpr float restitution = 1.0f;
 
     public:
-        void update(const float&);
+        void update() const;
     };
 }
 

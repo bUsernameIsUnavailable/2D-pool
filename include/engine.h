@@ -15,8 +15,6 @@
 
 namespace base {
     class engine final : public utils::singleton<engine> {
-        static float fps;
-
         static entityManager* entityManager;
         static componentManager* componentManager;
         static systemManager* systemManager;

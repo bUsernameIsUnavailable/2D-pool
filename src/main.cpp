@@ -159,7 +159,11 @@ namespace pool {
         });
 
         for (unsigned int index = 0u; index < 3u; ++index) {
-            const utils::polygonData ballData(10.0f + 10.0f * (float) index, 0.0f, 2.0f, 360u, totalDifferentIndices, 0.0f, 0.0f, 0.0f);
+            const utils::polygonData ballData(
+                    10.0f + 6.0f * (float) index, 0.0f, 2.0f,
+                    360u, totalDifferentIndices,
+                    0.0f, 0.0f, 0.0f
+            );
             const base::Entity& ball = base::engine::createEntity();
             base::engine::addComponent(ball, base::transformComponent());
             base::engine::addComponent(ball, base::meshComponent {
@@ -172,7 +176,7 @@ namespace pool {
             base::engine::addComponent(ball, base::rigidbody2DComponent {
                     //.velocity = { -0.002f, (float) (2 * (index % 2) - 1) * 0.004f },
                     .velocity = { -0.002f, -0.004f },
-                    .mass = 30.0f
+                    .mass = 10.0f + (float) index * 3.0f
             });
         }
     }

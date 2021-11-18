@@ -12,7 +12,7 @@ namespace base {
             auto& collider2D = engine::getComponent<collider2DComponent>(entity);
             auto& rigidbody2D = engine::getComponent<rigidbody2DComponent>(entity);
 
-            rigidbody2D.velocity *= 0.999999f;
+            //rigidbody2D.velocity *= 0.99991f;
 
             std::for_each(collider2D.points.begin(), collider2D.points.end(), [&rigidbody2D](glm::vec2& point) {
                 point += rigidbody2D.velocity;
