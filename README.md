@@ -34,5 +34,10 @@ This engine is very unoptimised because it's only been made in a few days by a s
 ### Collisions
 The collision detection algorithm is discrete, potentially causing [tunnelling](https://en.wikipedia.org/wiki/Tunnel_effect) to occur. Additionally, the engine lags whenever 2 or more balls approach each other, which can cause unusual things to happen to their velocities.
 
+## Textures
+The textures used in this project are not made by me. Click on each texture to be redirected to their respective source.
+
+[![Pool Table Texture](textures/pool_table.png)](https://www.toptal.com/designers/subtlepatterns/pool-table/)
+
 ## License
 [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/)

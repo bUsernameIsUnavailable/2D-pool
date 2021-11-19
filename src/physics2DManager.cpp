@@ -1,10 +1,10 @@
-#include <collision2DManager.h>
+#include <physics2DManager.h>
 
 #include <limits>
 
 
 namespace base {
-    glm::vec2 collision2DManager::getOverlap(
+    glm::vec2 physics2DManager::getOverlap(
             const collider2DComponent& from,
             const collider2DComponent& to
     ) {

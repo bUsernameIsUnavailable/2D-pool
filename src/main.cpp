@@ -5,6 +5,8 @@
 #include <rigidbody2DComponent.h>
 #include <transformComponent.h>
 
+#include <random>
+
 
 namespace pool {
     static unsigned int totalDifferentIndices = 0u;
@@ -14,11 +16,12 @@ namespace pool {
             const base::Entity &table = base::engine::createEntity();
             base::engine::addComponent(table, base::transformComponent());
             base::engine::addComponent(table, base::meshComponent{
+                    .textureFile = "textures/pool_table.png",
                     .vertices = {
                             -60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-                            60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-                            60.0f, 30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                            -60.0f, 30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
+                            60.0f, -30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 512.0f, 0.0f,
+                            60.0f, 30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 512.0f, 256.0f,
+                            -60.0f, 30.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 256.0f
                     },
                     .indices = {
                             totalDifferentIndices, totalDifferentIndices + 1u, totalDifferentIndices + 2u,
@@ -143,7 +146,7 @@ namespace pool {
     }
 
     static void createBalls() {
-        const utils::polygonData whiteBallData(0.0f, 0.0f, 2.0f, 360u, totalDifferentIndices, 1.0f, 1.0f, 1.0f);
+        const utils::polygonData whiteBallData(0.0f, -5.0f, 1.5f, 360u, totalDifferentIndices, 1.0f, 1.0f, 1.0f);
         const base::Entity& whiteBall = base::engine::createEntity();
         base::engine::addComponent(whiteBall, base::transformComponent());
         base::engine::addComponent(whiteBall, base::meshComponent {
@@ -154,15 +157,19 @@ namespace pool {
                 .points = whiteBallData.getPoints()
         });
         base::engine::addComponent(whiteBall, base::rigidbody2DComponent {
-                .velocity = { 0.02f, -0.004f },
-                .mass = 5.0f
+                .velocity = { 0.05f, -0.02f },
+                .mass = 6.0f
         });
+
+        std::random_device device;
+        std::mt19937 generator(device());
+        const std::uniform_real_distribution<float> random(0.0f, 1.0f);
 
         for (unsigned int index = 0u; index < 3u; ++index) {
             const utils::polygonData ballData(
-                    10.0f + 6.0f * (float) index, 0.0f, 2.0f,
+                    10.0f + 6.0f * (float) index, 0.0f, 2.0f + 0.5f * (float) index,
                     360u, totalDifferentIndices,
-                    0.0f, 0.0f, 0.0f
+                    random(generator), random(generator), random(generator)
             );
             const base::Entity& ball = base::engine::createEntity();
             base::engine::addComponent(ball, base::transformComponent());
@@ -174,9 +181,8 @@ namespace pool {
                     .points = ballData.getPoints()
             });
             base::engine::addComponent(ball, base::rigidbody2DComponent {
-                    //.velocity = { -0.002f, (float) (2 * (index % 2) - 1) * 0.004f },
-                    .velocity = { -0.002f, -0.004f },
-                    .mass = 10.0f + (float) index * 3.0f
+                    .velocity = { -0.002f, -0.04f },
+                    .mass = 10.0f + 3.0f * (float) index
             });
         }
     }

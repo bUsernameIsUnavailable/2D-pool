@@ -22,11 +22,11 @@ namespace base {
                 if (colliderTo.isTrigger)
                     continue;
 
-                const glm::vec2 overlapFromTo = collision2DManager::getOverlap(colliderFrom, colliderTo);
+                const glm::vec2 overlapFromTo = physics2DManager::getOverlap(colliderFrom, colliderTo);
                 if (overlapFromTo == glm::vec2(0.0f, 0.0f))
                     continue;
 
-                const glm::vec2 overlapToFrom = collision2DManager::getOverlap(colliderTo, colliderFrom);
+                const glm::vec2 overlapToFrom = physics2DManager::getOverlap(colliderTo, colliderFrom);
                 if (overlapToFrom == glm::vec2(0.0f, 0.0f))
                     continue;
 

@@ -5,7 +5,7 @@
 
 
 namespace base {
-    struct rigidbody2DComponent {
+    struct rigidbody2DComponent final {
         glm::vec2 velocity;
         float mass = 1000000000.0f;
     };

@@ -17,7 +17,7 @@ namespace base {
     };
 
     template<typename T>
-    class componentArray : public componentArrayBase {
+    class componentArray final : public componentArrayBase {
     protected:
         size_t size = 0u;
         std::array<T, maxEntityCount> components;

@@ -3,11 +3,13 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <string>
 #include <vector>
 
 
 namespace base {
     struct meshComponent final {
+        std::string textureFile;
         std::vector<GLfloat> vertices;
         std::vector<GLuint> indices;
     };

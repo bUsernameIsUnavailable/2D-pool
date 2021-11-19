@@ -8,7 +8,7 @@
 
 
 namespace utils {
-    class polygonData {
+    class polygonData final {
         std::vector<glm::vec2> points;
         std::vector<GLfloat> vertices;
         std::vector<GLuint> indices;

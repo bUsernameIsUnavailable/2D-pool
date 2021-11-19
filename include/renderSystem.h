@@ -21,6 +21,8 @@ namespace base {
         static GLuint eboId;
         static GLuint programId;
 
+        static std::vector<GLuint> textureIds;
+
         static GLfloat screenWidth;
         static GLfloat screenHeight;
 
@@ -28,6 +30,7 @@ namespace base {
         static glm::mat4 resizeMatrix;
 
         static GLint currentTransformId;
+        static GLint colourCodeId;
 
         static std::vector<GLfloat> totalVertices;
         static std::vector<GLuint> totalIndices;
@@ -36,8 +39,10 @@ namespace base {
 
         void createVbo();
         static void loadShaders();
+        void loadTextures();
 
         static void cleanup();
+        static void destroyShaders();
         static void destroyVbo();
 
     public:

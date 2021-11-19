@@ -4,6 +4,7 @@
 #include <transformComponent.h>
 
 #include <fstream>
+#include <SOIL.h>
 
 
 namespace base {
@@ -25,6 +26,8 @@ namespace base {
     GLuint renderSystem::eboId;
     GLuint renderSystem::programId;
 
+    std::vector<GLuint> renderSystem::textureIds;
+
     GLfloat renderSystem::screenWidth = 80.0f;
     GLfloat renderSystem::screenHeight = 60.0f;
 
@@ -32,6 +35,7 @@ namespace base {
     glm::mat4 renderSystem::resizeMatrix;
 
     GLint renderSystem::currentTransformId;
+    GLint renderSystem::colourCodeId;
 
     std::vector<GLfloat> renderSystem::totalVertices;
     std::vector<GLuint> renderSystem::totalIndices;
@@ -42,11 +46,15 @@ namespace base {
         vertexShader = "../shaders/pool_shader.vert";
         fragmentShader = "../shaders/pool_shader.frag";
 
+        textureIds = std::vector<GLuint>(maxEntityCount);
+
         resizeMatrix = glm::ortho(-screenWidth, screenWidth, -screenHeight, screenHeight);
 
         glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+
         createVbo();
         loadShaders();
+        loadTextures();
     }
 
     void renderSystem::createWindow(const windowConfig* const config) {
@@ -71,14 +79,23 @@ namespace base {
     void renderSystem::render() {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        unsigned int index = 0u;
         size_t previousMeshIndexSize = 0u;
+
         for (const auto& entity : entities) {
             const auto& transform = engine::getComponent<transformComponent>(entity);
             const auto& mesh = engine::getComponent<meshComponent>(entity);
 
+            glActiveTexture(GL_TEXTURE0 + index);
+            glBindTexture(GL_TEXTURE_2D, textureIds[index]);
+
             currentTransform = resizeMatrix * transform.translation;
             currentTransformId = glGetUniformLocation(programId, "currentTransform");
             glUniformMatrix4fv(currentTransformId, 1u, GL_FALSE, &currentTransform[0u][0u]);
+
+            colourCodeId = glGetUniformLocation(programId, "colourCode");
+            glUniform1i(colourCodeId, (GLint) textureIds[index]);
+
             glDrawElements(
                     GL_TRIANGLES,
                     (GLsizei) mesh.indices.size(),
@@ -87,6 +104,7 @@ namespace base {
             );
 
             previousMeshIndexSize += mesh.indices.size();
+            ++index;
         }
 
         glFlush();
@@ -191,10 +209,56 @@ namespace base {
         glUseProgram(programId);
     }
 
+    void renderSystem::loadTextures() {
+        unsigned int index = 0u;
+
+        for (const auto& entity : entities) {
+            const auto& mesh = engine::getComponent<meshComponent>(entity);
+
+            glGenTextures(1u, &textureIds[index]);
+            glBindTexture(GL_TEXTURE_2D, textureIds[index]);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+            int imageWidth, imageHeight;
+            unsigned char* const image = SOIL_load_image(
+                    mesh.textureFile.c_str(),
+                    &imageWidth,
+                    &imageHeight,
+                    nullptr,
+                    SOIL_LOAD_RGB
+            );
+
+            glTexImage2D(GL_TEXTURE_2D,
+                         0,
+                         GL_RGB,
+                         imageWidth,
+                         imageHeight,
+                         0,
+                         GL_RGB,
+                         GL_UNSIGNED_BYTE,
+                         image
+            );
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            SOIL_free_image_data(image);
+            glBindTexture(GL_TEXTURE_2D, textureIds[index]);
+
+            ++index;
+        }
+
+        textureIds.resize(index);
+    }
+
     void renderSystem::cleanup() {
         std::printf("Cleaning up...\n");
+        destroyShaders();
         destroyVbo();
         std::printf("Cleanup successful!\n\n");
+    }
+
+    void renderSystem::destroyShaders() {
+        glDeleteProgram(programId);
     }
 
     void renderSystem::destroyVbo() {

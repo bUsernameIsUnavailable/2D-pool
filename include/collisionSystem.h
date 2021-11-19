@@ -1,7 +1,7 @@
 #ifndef INC_2D_POOL_COLLISIONSYSTEM_H
 #define INC_2D_POOL_COLLISIONSYSTEM_H
 
-#include <collision2DManager.h>
+#include <physics2DManager.h>
 #include <systemManager.h>
 
 

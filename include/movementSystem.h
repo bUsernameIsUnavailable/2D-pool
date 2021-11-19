@@ -5,7 +5,7 @@
 
 
 namespace base {
-    class movementSystem : public system, public utils::singleton<movementSystem> {
+    class movementSystem final : public system, public utils::singleton<movementSystem> {
     public:
         void update() const;
     };

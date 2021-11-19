@@ -5,7 +5,7 @@
 
 
 namespace base {
-    class windowConfig {
+    class windowConfig final {
         int* argumentCount;
         char** argumentVector;
 
