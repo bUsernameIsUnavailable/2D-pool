@@ -38,10 +38,10 @@ namespace base {
 
                 const float& inverseMassFrom = 1.0f / rigidbodyFrom.mass;
                 const float& inverseMassTo = 1.0f / rigidbodyTo.mass;
-                const float& inverseMassSum = inverseMassFrom + inverseMassTo;
+                const float& reducedMass = 1.0f / (inverseMassFrom + inverseMassTo);
 
                 const glm::vec2& impulse = glm::dot(rigidbodyFrom.velocity - rigidbodyTo.velocity, overlap)
-                        * -(1.0f + restitution) / inverseMassSum * overlap;
+                        * -(1.0f + restitution) * reducedMass * overlap;
 
                 rigidbodyFrom.velocity += impulse * inverseMassFrom;
                 rigidbodyTo.velocity -= impulse * inverseMassTo;
