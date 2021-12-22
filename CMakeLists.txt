@@ -29,7 +29,7 @@ if (NOT glm_FOUND)
     message(ERROR " glm not found!")
 endif(NOT glm_FOUND)
 
-find_library(SOIL_LIB SOIL.lib ${PROJECT_SOURCE_DIR}/lib)
+find_library(SOIL_LIB SOIL.lib ${PROJECT_SOURCE_DIR}/lib/soil)
 
 execute_process(
         COMMAND ${CMAKE_COMMAND} -E

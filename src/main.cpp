@@ -222,33 +222,6 @@ namespace pool {
     static void createEntities() {
         createTable();
         createBalls();
-
-        /*
-        std::vector<base::Entity> balls(16u);
-        struct {
-            GLfloat r = 1.0f;
-            GLfloat g = 1.0f;
-            GLfloat b = 1.0f;
-        } colour;
-
-        for (size_t index = 0u; index < balls.size(); ++index) {
-            balls[index] = base::engine::createEntity();
-
-            base::engine::addComponent(balls[index], base::meshComponent {
-                .vertices = {
-                        -5.0f, -5.0f, 0.0f, 1.0f, colour.r, colour.g, colour.b, 0.0f, 0.0f,
-                         5.0f, -5.0f, 0.0f, 1.0f, colour.r, colour.g, colour.b, 1.0f, 0.0f,
-                         5.0f,  5.0f, 0.0f, 1.0f, colour.r, colour.g, colour.b, 1.0f, 1.0f,
-                        -5.0f,  5.0f, 0.0f, 1.0f, colour.r, colour.g, colour.b, 0.0f, 1.0f
-                },
-
-                .indices = {
-                        0u, 1u, 2u,
-                        3u, 0u, 2u
-                }
-            });
-        }
-        */
     }
 }
 
